@@ -1,0 +1,14 @@
+<launch>
+  <arg name="robot" default="nusim" description="choose to launch nusim or locally"/>
+  <!-- launch start_robot nuslam and everything associated-->
+  <include file="$(find-pkg-share nuslam)/launch/slam.launch.xml">
+    <arg name="slam_rviz_file" value="data_association" />
+    <arg name="use_fake_sensor" value="false" />
+  </include>
+
+  <!-- launch landmarks node if robot is nusim-->
+  <node pkg="nuslam" exec="landmarks">
+        <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+  </node>
+
+</launch>

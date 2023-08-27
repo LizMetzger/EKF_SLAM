@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['transform2d_65',['Transform2D',['../classturtlelib_1_1Transform2D.html#af02e23ce05599c9b378ea6bfbcc8d2dc',1,'turtlelib::Transform2D::Transform2D()'],['../classturtlelib_1_1Transform2D.html#a4ddd1cc18c672d413ebfd6752d33d554',1,'turtlelib::Transform2D::Transform2D(Vector2D trans)'],['../classturtlelib_1_1Transform2D.html#a206dfc425001c3a0ca1ab5336690f630',1,'turtlelib::Transform2D::Transform2D(double radians)'],['../classturtlelib_1_1Transform2D.html#aea373c83b9f293c2d5009db45258e994',1,'turtlelib::Transform2D::Transform2D(Vector2D trans, double radians)']]],
+  ['translation_66',['translation',['../classturtlelib_1_1Transform2D.html#a006a7b8e1a66ae557979f0a226f7571c',1,'turtlelib::Transform2D']]],
+  ['twist2d_67',['Twist2D',['../classturtlelib_1_1Twist2D.html#a97a7053f141781c9e9d706ef2ecff6bd',1,'turtlelib::Twist2D::Twist2D()'],['../classturtlelib_1_1Twist2D.html#a3366dabeed2713e1c86cbd515e6cb9f7',1,'turtlelib::Twist2D::Twist2D(Vector2D trans)'],['../classturtlelib_1_1Twist2D.html#af994ea42030e32de0adf5b5b397c4f37',1,'turtlelib::Twist2D::Twist2D(double radians)'],['../classturtlelib_1_1Twist2D.html#aaca4cb2d015a3a8d5c69375f67212362',1,'turtlelib::Twist2D::Twist2D(double ang, Vector2D trans)']]]
+];

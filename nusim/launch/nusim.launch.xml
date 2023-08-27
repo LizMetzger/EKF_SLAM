@@ -1,0 +1,33 @@
+<launch>
+  <arg name="config_file" default="basic_world" description="pick which world file to launch"/>
+  <arg name="rviz_file" default="nusim" description="pick which rviz config file to launch"/>
+  <arg name="use_rviz" default="true" description="choose to launch rviz"/>
+  <arg name="draw_only" default="false" description="choose to launch rviz"/>
+  <!-- launch rviz -->
+  <node pkg="rviz2" exec="rviz2"
+        args="-d $(find-pkg-share nusim)/config/$(var rviz_file).rviz"
+        namespace="global"
+        if="$(eval '\'$(var use_rviz)\' == \'true\'')"/>
+
+  <!-- launch node -->
+  <node pkg="nusim" exec="nusim">
+      <param from="$(find-pkg-share nusim)/config/$(var config_file).yaml"/>
+      <param from="$(find-pkg-share nusim)/config/laser.yaml"/>
+      <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+      <param name="x_length" value="5.0" />
+      <param name="y_length" value="5.0" />
+      <param name="input_noise" value="0.01" />
+      <param name="slip_fraction" value="0.001" />
+      <param name="basic_sensor_variance" value="0.01" />
+      <param name="max_range" value="1.2" />
+      <param name="num_samples" value="360" />
+      <param name="draw" value="$(var draw_only)" />
+  </node>
+
+  <!-- launch the other launch file to load four robots -->
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="red" />
+    <arg name="use_rviz" value="false" />
+  </include>
+
+</launch>

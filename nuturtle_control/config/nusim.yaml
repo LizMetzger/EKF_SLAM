@@ -1,0 +1,11 @@
+/**:
+   ros__parameters:
+      rate: 200.0
+      frequency: 100.0
+      x: -0.6
+      y: 0.8
+      theta: 1.57
+      obstacles:
+        x: []
+        y: []
+        r: .038

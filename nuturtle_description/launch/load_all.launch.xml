@@ -1,0 +1,45 @@
+<launch>
+  <!-- launch rviz -->
+  <node pkg="rviz2" exec="rviz2"
+        args="-d $(find-pkg-share nuturtle_description)/config/basic_all.rviz"
+        namespace="global"/>
+
+  <!-- create transforms between the robots and a world frame -->
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--y -1 --frame-id nusim/world --child-frame-id purple/base_footprint"/>
+
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--x -0.75 --frame-id nusim/world --child-frame-id blue/base_footprint"/>
+
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--x 0.25 --frame-id nusim/world --child-frame-id red/base_footprint"/>
+
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--y 0.5 --frame-id nusim/world --child-frame-id green/base_footprint"/>
+
+  <!-- launch the other launch file to load four robots -->
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="purple" />
+    <arg name="use_rviz" value="false" />
+  </include>
+
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="red" />
+    <arg name="use_rviz" value="false" />
+  </include>
+
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="green" />
+    <arg name="use_rviz" value="false" />
+  </include>
+
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="blue" />
+    <arg name="use_rviz" value="false" />
+  </include>
+
+</launch>

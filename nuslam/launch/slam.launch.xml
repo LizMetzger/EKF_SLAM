@@ -1,0 +1,45 @@
+<launch>
+  <arg name="slam_rviz_file" default="slam" description="pick which rviz config file to launch"/>
+  <arg name="robot" default="nusim" description="choose to launch nusim or locally"/>
+  <arg name="use_fake_sensor" default="true" description="choose to use the fake sensor data or real sensor data"/>
+  <!-- launch start_robot (nusim) if robot == nusim-->
+  <include file="$(find-pkg-share nuturtle_control)/launch/start_robot.launch.xml" 
+      if="$(eval '\'$(var robot)\' == \'nusim\'')">
+      <arg name="use_rviz" value="false"/>
+  </include>
+
+  <!-- run on turtlebot and launch if robot == turtlbotname -->
+  <node pkg="numsr_turtlebot" exec="numsr_turtlebot"
+    if="$(eval '\'$(var robot)\' == \'turtlebotname\'')">
+    <param name="use_rviz" value="false" />
+  </node>
+
+  <!-- launch new rviz config -->
+  <node pkg="rviz2" exec="rviz2"
+        args="-d $(find-pkg-share nuslam)/config/$(var slam_rviz_file).rviz"
+        namespace="global"/>
+
+  <!-- launch nuslam node -->
+  <node pkg="nuslam" exec="nuslam">
+      <param name="odom_id" value="green_odom" />
+      <param name="body_id" value="green/base_footprint" />
+      <param name="wheel_left" value="wheel_left_joint" />
+      <param name="wheel_right" value="wheel_right_joint" />
+      <param name="wheel_right" value="wheel_right_joint" />
+      <param name="fake_sensor" value="$(var use_fake_sensor)" />
+      <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+      <remap from="/joint_states" to="blue/joint_states"/>
+  </node>
+
+  <!-- load a green robot for slam -->
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="green" />
+    <arg name="use_rviz" value="false" />
+    <arg name="use_jsp" value="true" />
+  </include>
+
+  <!-- create transforms between the robots and a world frame -->
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--frame-id nusim/world --child-frame-id map" />
+</launch>

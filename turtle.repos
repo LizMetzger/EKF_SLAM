@@ -1,0 +1,9 @@
+repositories:
+  nuturtle-LizMetzger:
+    type: git
+    url: git@github.com:ME495-Navigation/nuturtle-LizMetzger.git
+    version: main
+  nuturtlebot_msgs:
+    type: git
+    url: git@github.com:ME495-Navigation/nuturtlebot_msgs.git
+    version: humble

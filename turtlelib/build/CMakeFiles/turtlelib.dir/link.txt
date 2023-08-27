@@ -1,0 +1,2 @@
+/usr/bin/ar qc libturtlelib.a CMakeFiles/turtlelib.dir/src/rigid2d.cpp.o CMakeFiles/turtlelib.dir/src/diff_drive.cpp.o CMakeFiles/turtlelib.dir/src/make_circles.cpp.o
+/usr/bin/ranlib libturtlelib.a

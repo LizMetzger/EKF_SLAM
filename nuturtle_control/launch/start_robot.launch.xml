@@ -1,0 +1,89 @@
+<launch>
+  <arg name="cmd_src" default="none" description="launch circle or teleop"/>
+  <arg name="robot" default="nusim" description="choose to launch nusim or locally"/>
+  <arg name="use_rviz" default="true" description="choose to launch rviz"/>
+  <arg name="draw_only" default="false" description="choose to only draw obstacles"/>
+  <!-- to launch nusim node  -->
+  <arg name="config_file" default="basic_world" description="pick which world file to launch"/>
+
+  <!-- if robot is localhost -->
+  <!-- run nodes directly on turtlebot3 (odometry and turtle control and numsr_turtlebot) -->
+  <!-- set use rviz to false -->
+  <node pkg="numsr_turtlebot" exec="numsr_turtlebot"
+    if="$(eval '\'$(var robot)\' == \'localhost\'')">
+    <param name="use_rviz" value="false" />
+  </node>
+
+  <!-- launch nodes -->
+  <!-- always launch odometry -->
+  <node pkg="nuturtle_control" exec="odometry">
+      <param name="odom_id" value="odom" />
+      <param name="body_id" value="blue/base_footprint" />
+      <param name="wheel_left" value="wheel_left_joint" />
+      <param name="wheel_right" value="wheel_right_joint" />
+      <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+      <remap from="/joint_states" to="blue/joint_states"/>
+  </node>
+
+  <!-- when robot is launched with nusim launch with red robot -->
+  <node pkg="nuturtle_control" exec="turtle_control"
+      if="$(eval '\'$(var robot)\' == \'nusim\'')">
+      <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+      <remap from="/wheel_cmd" to="red/wheel_cmd"/>
+      <remap from="/sensor_data" to="red/sensor_data"/>
+      <remap from="/joint_states" to="blue/joint_states"/>
+  </node>
+
+  <!-- when robot is NOT launched with nusim launch without red robot -->
+  <node pkg="nuturtle_control" exec="turtle_control"
+      if="$(eval '\'$(var robot)\' != \'nusim\'')">
+      <param from="$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+      <remap from="/joint_states" to="blue/joint_states"/>
+  </node>
+
+  <!-- if cmd_src is circle then launch circle -->
+  <node pkg="nuturtle_control" exec="circle"
+        if="$(eval '\'$(var cmd_src)\' == \'circle\'')">
+        <remap from="/joint_states" to="blue/joint_states"/>
+  </node>
+
+  <!-- if cmd_src is teleop then launch teleop -->
+  <node pkg="teleop_twist_keyboard" exec="teleop_twist_keyboard" 
+        name="teleop"
+        output="screen"
+        launch-prefix="xterm -e" 
+        if="$(eval '\'$(var cmd_src)\' == \'teleop\'')"/>
+
+  <!-- if robot is nusim -->
+  <include file="$(find-pkg-share nusim)/launch/nusim.launch.xml" 
+           if="$(eval '\'$(var robot)\' == \'nusim\'')">
+           <arg name="rviz_file" value="nusim_odom"/>
+           <arg name="use_rviz" value="false"/>
+           <arg name="draw" value="$(var draw_only)"/>
+  </include>
+
+  <!-- create transforms between the robots and a world frame -->
+  <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        args="--frame-id nusim/world --child-frame-id odom" />
+
+  <!-- launch rviz -->
+  <node pkg="rviz2" exec="rviz2"
+    args="-d $(find-pkg-share nuturtle_control)/config/control.rviz"
+    namespace="global"
+    if="$(eval '\'$(var use_rviz)\' == \'true\'')"/>
+
+  <!-- launch the laser node whenever robot is localhost -->
+  <include file="$(find-pkg-share hls_lfcd_lds_driver)/launch/hlds_laser.launch.py"
+    if="$(eval '\'$(var robot)\' == \'localhost\'')">
+    <arg name="port" value="/dev/ttyUSB0" />
+  </include>
+
+  <!-- load a blue robot for odometry -->
+  <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+    <arg name="color" value="blue" />
+    <arg name="use_rviz" value="false" />
+    <arg name="use_jsp" value="false" />
+  </include>
+
+</launch>

@@ -1,0 +1,22 @@
+Start testing: Mar 14 14:45 CDT
+----------------------------------------------------------
+1/1 Testing: Test_of_Turtlelib
+1/1 Test: Test_of_Turtlelib
+Command: "/home/liz/SLAM/slam/src/nuturtle-LizMetzger/turtlelib/build/turtlelib_test"
+Directory: /home/liz/SLAM/slam/src/nuturtle-LizMetzger/turtlelib/build
+"Test_of_Turtlelib" start time: Mar 14 14:45 CDT
+Output:
+----------------------------------------------------------
+Randomness seeded to: 2961856429
+3.59808 9.26314 1.0472===============================================================================
+All tests passed (109 assertions in 29 test cases)
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Test_of_Turtlelib" end time: Mar 14 14:45 CDT
+"Test_of_Turtlelib" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Mar 14 14:45 CDT

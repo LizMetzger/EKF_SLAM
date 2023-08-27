@@ -1,0 +1,7 @@
+/**:
+   ros__parameters:
+      num_samples: 360
+      laser_noise: 0.005
+      min_laser_range: 0.119999997
+      max_laser_range: 3.5
+      angle_increment: 0.01745329
